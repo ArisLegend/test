@@ -1,13 +1,13 @@
-Guide d'utilisation de Tailscale
+#Guide d'utilisation de Tailscale
 Ce guide explique comment utiliser Tailscale sur Linux, Windows et macOS.
 
-Prérequis
+##Prérequis
 Avant de commencer, assurez-vous d'avoir les éléments suivants :
 
 Un compte Tailscale (vous pouvez vous inscrire sur https://tailscale.com)
 Un système d'exploitation Linux, Windows ou macOS
-Installation
-Linux
+##Installation
+###Linux
 Ouvrez un terminal.
 Exécutez la commande suivante pour installer Tailscale :
 
