@@ -1,0 +1,5 @@
+- name: "Play Name"
+  hosts: all
+  become: true
+  roles:
+    - wireguard

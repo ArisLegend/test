@@ -1,0 +1,8 @@
+all:
+  hosts:
+    my_container:
+      ansible_connection: podman
+    conteneur1:
+      ansible_connection: podman
+    conteneur2:
+      ansible_connection: podman
