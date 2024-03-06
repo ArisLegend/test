@@ -1,0 +1,58 @@
+---
+- name: Install dependencies for Debian
+  ansible.builtin.apt:
+    name:
+      - wireguard
+      - linux-headers-{{ ansible_kernel }}
+    state: present
+
+- name: Ensure /etc/wireguard exists
+  ansible.builtin.file:
+    path: /etc/wireguard
+    owner: root
+    group: root
+    mode: '700'
+    state: directory
+
+- name: Generate a private key
+  ansible.builtin.shell: |
+    wg genkey > {{ ansible_hostname }}
+    chmod 600 {{ ansible_hostname }}
+  args:
+    chdir: /etc/wireguard
+    creates: "/etc/wireguard/{{ ansible_hostname }}"
+
+- name: Retrieve private key as variable
+  ansible.builtin.command: "cat /etc/wireguard/{{ ansible_hostname }}"
+  register: wg_key
+  changed_when: false
+
+- name: Generate a public key
+  ansible.builtin.shell: |
+    wg pubkey < {{ ansible_hostname }} > {{ ansible_hostname }}.pub
+    chmod 600 {{ ansible_hostname }}.pub
+  args:
+    chdir: /etc/wireguard
+    creates: "/etc/wireguard/{{ ansible_hostname }}.pub"
+
+- name: Retrieve public key as variable
+  ansible.builtin.command: "cat /etc/wireguard/{{ ansible_hostname }}.pub"
+  register: wg_pub
+  changed_when: false
+
+- name: Include server tasks
+  ansible.builtin.include_tasks: server.yml
+  when: ansible_hostname == wg_server
+
+- name: Include client tasks
+  ansible.builtin.include_tasks: client.yml
+  when: ansible_hostname != wg_server
+
+- name: Set up wireguard network configuration
+  ansible.builtin.template:
+    src: wireguard.network
+    dest: /etc/systemd/network/40-wireguard.network
+    owner: root
+    group: root
+    mode: '644'
+  notify: "restart systemd-networkd"
