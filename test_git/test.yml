@@ -1,0 +1,15 @@
+---
+- name: Commit des fichiers vers un dépôt Git distant
+  hosts: localhost
+  tasks:
+    - name: Commit the file to the remote repository
+      ansible.builtin.command:
+        cmd: git pull
+    - name: Commit the file to the remote repository
+      ansible.builtin.command:
+        cmd: git add ~/projets/test/test_git/test.yml
+    - ansible.builtin.command:
+        cmd: git commit -m "Ajout du fichier test_git"
+    - name: push du fichier dans le dépôt distant
+      ansible.builtin.command:
+        cmd: git push
