@@ -1,6 +1,6 @@
 ---
 arch: auto
-wg_server: 469b4b0c395e
+wg_server: 89362f789bb4 # conteneur1
 wg_endpoint: example.com
 wg_address4: 10.0.0.1
 wg_address6: fd00::/8

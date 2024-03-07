@@ -1,7 +1,7 @@
 all:
   hosts:
-    my_container:
-      ansible_connection: podman
+    localhost:
+      ansible_connection: local
     conteneur1:
       ansible_connection: podman
     conteneur2:
